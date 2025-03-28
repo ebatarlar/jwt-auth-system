@@ -1,0 +1,14 @@
+{
+    "name": "jwt-auth-system/php-auth",
+    "description": "PHP ve JWT ile güvenli giriş sistemi",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "firebase/php-jwt": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "JwtAuth\\": "src/"
+        }
+    }
+}
