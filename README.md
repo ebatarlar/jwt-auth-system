@@ -73,22 +73,41 @@ CREATE TABLE users (
    - Windows: `cd C:\xampp\htdocs\jwt-auth-system`
    - macOS: `cd /Applications/MAMP/htdocs/jwt-auth-system`
 3. Composer kurulu değilse, aşağıdaki adımları izleyin:
-   - [Composer'in resmi web sitesinden](https://getcomposer.org/download/) kurulum talimatlarını takip edin
-   - Veya MAMP için aşağıdaki komutları çalıştırın:
-     ```
-     /Applications/MAMP/bin/php/php[version]/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-     /Applications/MAMP/bin/php/php[version]/bin/php composer-setup.php --install-dir=. --filename=composer
-     /Applications/MAMP/bin/php/php[version]/bin/php -r "unlink('composer-setup.php');"
-     ```
-     (Not: `[version]` kısmını MAMP'teki PHP sürümünüzle değiştirin, örn: `php8.3.14`)
+
+   #### Global Kurulum (Tavsiye Edilen):
+   ```
+   # Composer'i indirin
+   /Applications/MAMP/bin/php/php8.3.14/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+   
+   # Composer'i kurun
+   /Applications/MAMP/bin/php/php8.3.14/bin/php composer-setup.php
+   
+   # Composer'i global dizine taşıyın
+   sudo mkdir -p /usr/local/bin
+   sudo mv composer.phar /usr/local/bin/composer
+   sudo chmod +x /usr/local/bin/composer
+   
+   # Kurulumu doğrulayın
+   /Applications/MAMP/bin/php/php8.3.14/bin/php /usr/local/bin/composer --version
+   ```
+   
+   Not: MAMP kullanırken Composer'i çalıştırmak için her zaman MAMP'in PHP yorumlayıcısını belirtmelisiniz:
+   ```
+   /Applications/MAMP/bin/php/php8.3.14/bin/php /usr/local/bin/composer [komut]
+   ```
+   
+   Kolaylık için aşağıdaki alias'i `~/.zshrc` veya `~/.bashrc` dosyanıza ekleyebilirsiniz:
+   ```
+   alias composer="/Applications/MAMP/bin/php/php8.3.14/bin/php /usr/local/bin/composer"
+   ```
 
 4. Composer ile bağımlılıkları yükleyin:
    ```
-   # Global Composer kuruluysa:
+   # Global Composer kurulumu yaptıysanız ve alias eklediyseniz:
    composer install
    
-   # Yerel Composer kurulumu yaptıysanız:
-   /Applications/MAMP/bin/php/php[version]/bin/php composer install
+   # Global Composer kurulumu yaptıysanız ancak alias eklemediyseniz:
+   /Applications/MAMP/bin/php/php8.3.14/bin/php /usr/local/bin/composer install
    ```
    
 5. Gerekli paketler:
