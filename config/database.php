@@ -4,13 +4,27 @@
  * JWT Auth System için veritabanı bağlantı sınıfı
  */
 
+// Çevre değişkenlerini yükle
+require_once __DIR__ . '/env.php';
+
 class Database {
     // Veritabanı bağlantı bilgileri
-    private $host = 'localhost';
-    private $db_name = 'jwt_auth';
-    private $username = 'root';
-    private $password = 'root'; // MAMP için varsayılan şifre 'root'
+    private $host      = null;
+    private $db_name   = null;
+    private $username  = null;
+    private $password  = null;
     private $conn;
+    
+    /**
+     * Constructor
+     * Çevre değişkenlerinden veritabanı bağlantı bilgilerini yükler
+     */
+    public function __construct() {
+        $this->host     = env('DB_HOST', 'localhost');
+        $this->db_name  = env('DB_NAME', 'jwt_auth');
+        $this->username = env('DB_USER', 'root');
+        $this->password = env('DB_PASS', 'root');
+    }
 
     /**
      * Veritabanı bağlantısını oluşturur

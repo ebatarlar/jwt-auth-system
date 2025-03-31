@@ -72,22 +72,52 @@ CREATE TABLE users (
 2. Proje dizinine gidin:
    - Windows: `cd C:\xampp\htdocs\jwt-auth-system`
    - macOS: `cd /Applications/MAMP/htdocs/jwt-auth-system`
-3. Composer ile bağımlılıkları yükleyin:
+3. Composer kurulu değilse, aşağıdaki adımları izleyin:
+   - [Composer'in resmi web sitesinden](https://getcomposer.org/download/) kurulum talimatlarını takip edin
+   - Veya MAMP için aşağıdaki komutları çalıştırın:
+     ```
+     /Applications/MAMP/bin/php/php[version]/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+     /Applications/MAMP/bin/php/php[version]/bin/php composer-setup.php --install-dir=. --filename=composer
+     /Applications/MAMP/bin/php/php[version]/bin/php -r "unlink('composer-setup.php');"
+     ```
+     (Not: `[version]` kısmını MAMP'teki PHP sürümünüzle değiştirin, örn: `php8.3.14`)
+
+4. Composer ile bağımlılıkları yükleyin:
    ```
+   # Global Composer kuruluysa:
    composer install
+   
+   # Yerel Composer kurulumu yaptıysanız:
+   /Applications/MAMP/bin/php/php[version]/bin/php composer install
+   ```
+   
+5. Gerekli paketler:
+   - firebase/php-jwt: JWT token işlemleri için
+   - vlucas/phpdotenv: Çevre değişkenleri yönetimi için
+
+### 5. Çevre Değişkenleri Yapılandırması
+
+1. Proje kök dizininde `.env.example` dosyasını `.env` olarak kopyalayın:
+   ```
+   cp .env.example .env
    ```
 
-### 5. Veritabanı Yapılandırması
-
-1. `config/database.php` dosyasını bir metin editörü ile açın
-2. Veritabanı bağlantı bilgilerinizi güncelleyin:
-   ```php
-   // Varsayılan ayarlar (XAMPP/MAMP):
-   $host = 'localhost';
-   $db_name = 'jwt_auth';
-   $username = 'root';
-   $password = ''; // XAMPP için genellikle boş, MAMP için 'root'
+2. `.env` dosyasını bir metin editörü ile açın ve aşağıdaki ayarları güncelleyin:
    ```
+   # Veritabanı Yapılandırması
+   DB_HOST=localhost
+   DB_NAME=jwt_auth
+   DB_USER=root
+   DB_PASS=root  # XAMPP için genellikle boş, MAMP için 'root'
+   
+   # JWT Yapılandırması
+   JWT_SECRET=your_secure_secret_key_change_this  # Güvenlik için bu anahtarı değiştirin!
+   JWT_EXPIRE=3600
+   JWT_ISSUER=jwt_auth_system
+   ```
+   
+   **Önemli:** JWT_SECRET değerini güvenli, karmaşık ve benzersiz bir değerle değiştirin. 
+   Bu anahtar, token'larınızın güvenliği için kritik öneme sahiptir.
 
 ## Projeyi Çalıştırma
 
