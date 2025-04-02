@@ -7,11 +7,13 @@
  */
 
 // CORS headers
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:8888"); // Allow only localhost:8000
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Credentials: true"); // Often needed when restricting origin
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Vary: Origin"); // Add Vary header
 
 // OPTIONS request için CORS pre-flight response
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -22,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Sadece POST isteklerine izin ver
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
-    echo json_encode(["error" => "Sadece POST metodu desteklenmektedir."]);
+    echo json_encode(["success" => false, "error" => "Sadece POST metodu desteklenmektedir."]);
     exit;
 }
 
@@ -55,7 +57,7 @@ if (!isset($data['password']) || empty($data['password'])) {
 // Hata varsa yanıt döndür
 if (!empty($errors)) {
     http_response_code(400); // Bad Request
-    echo json_encode(["errors" => $errors]);
+    echo json_encode(["success" => false, "error" => implode("\n", $errors)]);
     exit;
 }
 
@@ -76,22 +78,28 @@ if ($result['success']) {
     if ($login_result['success']) {
         // Yanıt verisini hazırla
         $response = [
+            "success" => true,
             "message" => "Kayıt başarılı ve otomatik giriş yapıldı.",
-            "token" => $login_result['token'],
-            "user" => $login_result['user']
+            "data" => [
+                "token" => $login_result['token'],
+                "user" => $login_result['user']
+            ]
         ];
         
         echo json_encode($response);
     } else {
         // Kayıt başarılı ama giriş başarısız
         echo json_encode([
+            "success" => true,
             "message" => $result['message'],
-            "user_id" => $result['user_id']
+            "data" => [
+                 "user_id" => $result['user_id']
+            ]
         ]);
     }
 } else {
     // Başarısız kayıt
     http_response_code(400); // Bad Request
-    echo json_encode(["error" => $result['message']]);
+    echo json_encode(["success" => false, "error" => $result['message']]);
 }
 ?>
