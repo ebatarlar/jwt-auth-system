@@ -38,20 +38,28 @@ PHP, MySQL ve tercihen JavaScript kullanarak güvenli bir giriş sistemi oluştu
 └── jwt-auth-system/
     ├── api/
     │   ├── login.php
-    │   └── profile.php
+    │   ├── profile.php
+    │   └── register.php
+    ├── api_test.html
     ├── assets/
     │   ├── css/
     │   └── js/
+    │       ├── dashboard.js
+    │       ├── login.js
+    │       └── registration.js
+    ├── composer.json
     ├── config/
-    │   └── database.php
+    │   ├── database.php
+    │   └── env.php
     ├── includes/
     │   ├── auth.php
     │   └── jwt_utils.php
     ├── dashboard.php
     ├── index.php (login sayfası)
     ├── logout.php
-    ├── register.php
-    └── README.md
+    ├── registration.php
+    ├── README.md
+    └── PRD.md
 ```
 
 ### Veritabanı Yapısı
