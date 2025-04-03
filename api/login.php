@@ -62,10 +62,6 @@ if ($result['success']) {
         ]
     ];
     
-    // Remember Me özelliği için (web arayüzü bu bilgiyi kullanabilir)
-    if (isset($data['remember_me']) && $data['remember_me']) {
-        $response["data"]['remember_me'] = true;
-    }
     
     echo json_encode($response);
 } else {

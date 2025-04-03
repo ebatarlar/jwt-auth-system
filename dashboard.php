@@ -95,7 +95,7 @@ if (!isset($_SESSION['user_id'])) {
                         </p>
                         
                         <button id="fetch-profile" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition">
-                            Profil Bilgilerini Yenile
+                            Profil Bilgilerini Al
                         </button>
                         
                         <div id="profile-status" class="hidden px-4 py-3 rounded text-yellow-700 bg-yellow-100 text-sm">

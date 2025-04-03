@@ -293,5 +293,47 @@ class Auth {
         // Kullanıcı bilgilerini döndür
         return isset($decoded['data']) ? $decoded['data'] : null;
     }
+    
+    /**
+     * JWT token'ın geçerliliğini doğrular
+     * 
+     * @param string $token JWT token
+     * @return array Doğrulama sonucu (success, message, user_id varsa)
+     */
+    public function verifyToken($token) {
+        try {
+            // Token'ı doğrula
+            $decoded = $this->jwt_utils->validateToken($token);
+            
+            // Token geçersizse hata döndür
+            if (!$decoded) {
+                return [
+                    'success' => false,
+                    'message' => 'Geçersiz veya süresi dolmuş token.'
+                ];
+            }
+            
+            // Token geçerli, kullanıcı ID'sini döndür
+            if (isset($decoded['data']) && isset($decoded['data']['id'])) {
+                return [
+                    'success' => true,
+                    'message' => 'Token geçerli.',
+                    'user_id' => $decoded['data']['id']
+                ];
+            }
+            
+            // Token yapısı doğru değil
+            return [
+                'success' => false,
+                'message' => 'Token yapısı geçersiz.'
+            ];
+            
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Token doğrulama hatası: ' . $e->getMessage()
+            ];
+        }
+    }
 }
 ?>

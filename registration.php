@@ -52,6 +52,5 @@
         </div>
     </div>
 
-    <!-- Script moved to assets/js/registration.js -->
 </body>
 </html>

@@ -18,8 +18,15 @@ $auth = new Auth();
 // - Oturumu sonlandırır
 $auth->logout();
 
-// Remember me çerezini temizle
-setcookie('remember_me', '', time() - 3600, '/');
+// Tüm çerezleri temizle (session cookie'si zaten Auth::logout() içinde temizleniyor)
+if (isset($_SERVER['HTTP_COOKIE'])) {
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+    foreach($cookies as $cookie) {
+        $parts = explode('=', $cookie);
+        $name = trim($parts[0]);
+        setcookie($name, '', time() - 3600, '/');
+    }
+}
 
 // Token ve kullanıcı verilerini localStorage'dan temizlemek için JavaScript ile yönlendir
 ?>

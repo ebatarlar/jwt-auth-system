@@ -1,10 +1,15 @@
 $(document).ready(function() {
     // Check if user is logged in (token exists)
     const token = localStorage.getItem('jwt_token');
-    if (!token) {
-        // Redirect to login if no token
-        window.location.href = 'index.php';
-        return;
+    
+    // If token exists, verify it silently in the background
+    if (token) {
+        // Check if token has expired by making a token verification request
+        verifyTokenSilently(token);
+    } else {
+        console.log('JWT token missing. Signing out user.');
+        // Redirect to logout to clear session and completely sign out
+        window.location.href = 'logout.php';
     }
 
    
@@ -15,6 +20,9 @@ $(document).ready(function() {
         $(this).prop('disabled', true);
         $(this).html('<span class="inline-block animate-spin mr-2">&#8635;</span> Yükleniyor...');
         $('#profile-status').removeClass('hidden');
+        
+       
+        
         
         // Make API request to profile endpoint
         $.ajax({
@@ -39,7 +47,7 @@ $(document).ready(function() {
                     $('#profile-status')
                         .removeClass('text-yellow-700 bg-yellow-100')
                         .addClass('text-green-700 bg-green-100')
-                        .text('Profil bilgileri başarıyla güncellendi');
+                        .text('Profil bilgileri başarıyla alındı');
                     
                     // Store updated user data
                     localStorage.setItem('user_data', JSON.stringify(user));
@@ -70,7 +78,7 @@ $(document).ready(function() {
                     localStorage.removeItem('jwt_token');
                     localStorage.removeItem('user_data');
                     setTimeout(function() {
-                        window.location.href = 'index.php';
+                        window.location.href = 'logout.php';
                     }, 2000);
                 }
             },
@@ -83,6 +91,34 @@ $(document).ready(function() {
 
     // Logout button handler
     $('#logout-button').on('click', function() {
+        // Clear localStorage before redirecting
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('user_data');
         window.location.href = 'logout.php';
     });
+    
+    // Function to silently verify token without redirecting on failure
+    function verifyTokenSilently(token) {
+        $.ajax({
+            url: 'api/verify-token.php',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+                // Token is valid, nothing to do
+                //console.log('Token verified successfully');
+            },
+            error: function(xhr) {
+                // Token is invalid or expired
+                if (xhr.status === 401) {
+                    //console.log('Token is invalid or expired. Clearing localStorage.');
+                    // Clear localStorage but don't redirect
+                    localStorage.removeItem('jwt_token');
+                    localStorage.removeItem('user_data');
+                    window.location.href = 'logout.php';
+                }
+            }
+        });
+    }
 });

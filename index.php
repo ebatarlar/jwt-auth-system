@@ -15,8 +15,6 @@ if (isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Hata mesajı için değişkenler
-$error = '';
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -50,10 +48,6 @@ $error = '';
                 <input type="password" id="password" name="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
             </div>
             
-            <div class="flex items-center">
-                <input type="checkbox" id="remember-me" name="remember-me" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                <label for="remember-me" class="ml-2 block text-sm text-gray-700">Beni hatırla</label>
-            </div>
             
             <div>
                 <button id="login-button" type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

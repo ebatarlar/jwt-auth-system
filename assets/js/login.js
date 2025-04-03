@@ -17,7 +17,6 @@ $(document).ready(function() {
         // Get form data
         const email = $('#email').val().trim();
         const password = $('#password').val();
-        const rememberMe = $('#remember-me').is(':checked');
         
         // Basic validation
         if (!email || !validateEmail(email)) {
@@ -33,8 +32,7 @@ $(document).ready(function() {
         // Prepare data for API
         const loginData = {
             email: email,
-            password: password,
-            remember_me: rememberMe
+            password: password
         };
         
         // Show loading state
