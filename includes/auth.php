@@ -209,44 +209,9 @@ class Auth {
         session_destroy();
     }
     
-    /**
-     * Kullanıcının giriş yapmış olup olmadığını kontrol eder
-     * 
-     * @return bool Kullanıcı giriş yapmışsa true, yapmamışsa false
-     */
-    public function isLoggedIn() {
-        // Oturum başlatılmamışsa başlat
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        // Oturum kontrolü
-        return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-    }
     
-    /**
-     * Giriş yapmış kullanıcının bilgilerini döndürür
-     * 
-     * @return array|null Kullanıcı giriş yapmışsa kullanıcı bilgileri, yapmamışsa null
-     */
-    public function getCurrentUser() {
-        // Oturum başlatılmamışsa başlat
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        // Kullanıcı giriş yapmamışsa null döndür
-        if (!$this->isLoggedIn()) {
-            return null;
-        }
-        
-        // Kullanıcı bilgilerini döndür
-        return [
-            'id' => $_SESSION['user_id'],
-            'name' => $_SESSION['user_name'],
-            'email' => $_SESSION['user_email']
-        ];
-    }
+    
+   
     
     /**
      * Kullanıcı ID'sine göre kullanıcı bilgilerini getirir
@@ -275,24 +240,7 @@ class Auth {
         }
     }
     
-    /**
-     * JWT token'ından kullanıcı bilgilerini getirir
-     * 
-     * @param string $token JWT token
-     * @return array|null Token geçerliyse kullanıcı bilgileri, geçersizse null
-     */
-    public function getUserFromToken($token) {
-        // Token'ı doğrula
-        $decoded = $this->jwt_utils->validateToken($token);
-        
-        // Token geçersizse null döndür
-        if (!$decoded) {
-            return null;
-        }
-        
-        // Kullanıcı bilgilerini döndür
-        return isset($decoded['data']) ? $decoded['data'] : null;
-    }
+    
     
     /**
      * JWT token'ın geçerliliğini doğrular

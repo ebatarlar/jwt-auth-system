@@ -7,13 +7,11 @@
  */
 
 // CORS headers
-header("Access-Control-Allow-Origin: http://localhost:8888"); // Allow only localhost:8000
+header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Credentials: true"); // Often needed when restricting origin
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-header("Vary: Origin"); // Add Vary header
 
 // OPTIONS request için CORS pre-flight response
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
