@@ -39,10 +39,10 @@ PHP, MySQL ve tercihen JavaScript kullanarak güvenli bir giriş sistemi oluştu
     ├── api/
     │   ├── login.php
     │   ├── profile.php
-    │   └── register.php
+    │   ├── register.php
+    │   └── verify-token.php
     ├── api_test.html
     ├── assets/
-    │   ├── css/
     │   └── js/
     │       ├── dashboard.js
     │       ├── login.js
@@ -58,6 +58,8 @@ PHP, MySQL ve tercihen JavaScript kullanarak güvenli bir giriş sistemi oluştu
     ├── index.php (login sayfası)
     ├── logout.php
     ├── registration.php
+    ├── swagger.json
+    ├── swagger-ui.html
     ├── README.md
     └── PRD.md
 ```
